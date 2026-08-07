@@ -1,0 +1,12 @@
+{
+  // Config Cloudflare Workers — sert le dossier web/ en statique, derrière une porte à mot de passe.
+  "name": "daimon",
+  "main": "worker.js",
+  "compatibility_date": "2026-07-12",
+  "assets": {
+    "directory": "./web",
+    "binding": "ASSETS",
+    // Le Worker s'exécute AVANT de servir un fichier → il peut exiger le mot de passe sur TOUTE requête.
+    "run_worker_first": true
+  }
+}

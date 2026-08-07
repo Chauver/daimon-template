@@ -1,0 +1,429 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1">
+<meta name="theme-color" content="#08182E">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Δaï">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icons/icon-180.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;700;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<title>Daïmon — Cap sur Les Sables 2027</title>
+<style>
+  :root{
+    --abysse:#08182E; --fond-2:#071426; --fond-3:#050D1A;
+    --carte:#0B2036; --trait:#14344F; --trait-2:#10273E; --piste:#0E2A44; --mer:#0E5E78;
+    --calcaire:#F6EFE1; --texte-doux:#A9BDD0; --muet:#7E96AD; --muet-2:#4E6A85; --muet-3:#34506B;
+    --or:#F2B441; --bleu:#1E9BD8; --turquoise:#1FB5CE; --vert:#2FB877; --sable:#E0A94F; --corail:#F0663F;
+    --gradient-sables:linear-gradient(90deg,#1E9BD8 0%,#2FB877 32%,#E0A94F 62%,#F0663F 100%);
+    --display:'Unbounded',sans-serif; --texte:'Space Grotesk',sans-serif;
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  body{margin:0;background:#000;font-family:var(--texte);color:var(--calcaire);
+    user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;overscroll-behavior:none}
+  .titre-gradient{font-family:var(--display);font-weight:900;letter-spacing:.02em;
+    background:var(--gradient-sables);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .etiquette{letter-spacing:.14em;color:var(--muet);text-transform:uppercase}
+  .carte{background:var(--carte);border:1px solid var(--trait);border-radius:16px}
+  /* pager : swipe horizontal + snap */
+  .pager{display:flex;height:100dvh;overflow-x:auto;overflow-y:hidden;scroll-snap-type:x mandatory;
+    scroll-behavior:smooth;-webkit-overflow-scrolling:touch}
+  .pager::-webkit-scrollbar{display:none}
+  .ecran{flex:0 0 100%;width:100%;max-width:430px;margin:0 auto;height:100dvh;scroll-snap-align:start;
+    background:linear-gradient(180deg,var(--abysse) 0%,var(--fond-2) 55%,var(--fond-3) 100%);
+    display:flex;flex-direction:column;overflow:hidden}
+  .ecran.saison{background:linear-gradient(180deg,#060F1D 0%,var(--fond-2) 60%,var(--fond-3) 100%)}
+  .scroll{flex:1;overflow-y:auto;display:flex;flex-direction:column;padding-bottom:70px}
+  .scroll::-webkit-scrollbar{display:none}
+  .wk{scrollbar-width:none}.wk::-webkit-scrollbar{display:none}
+  /* onglets fixes (partagés) */
+  .tabs{position:fixed;left:0;right:0;bottom:0;z-index:10;display:flex;justify-content:center;gap:44px;
+    padding:8px 0 calc(6px + env(safe-area-inset-bottom,20px));border-top:1px solid var(--trait-2);
+    background:linear-gradient(180deg,rgba(5,13,26,.4),rgba(5,13,26,.96));backdrop-filter:blur(8px)}
+  .tab{display:flex;flex-direction:column;align-items:center;gap:2px;cursor:pointer;min-width:60px}
+  .tab .delta{font-family:var(--display);font-weight:700;font-size:12px}
+  .tab .sq{width:12px;height:12px;border:1.5px solid var(--muet-2);border-radius:3px;margin-top:1px}
+  .tab .lib{font-size:9px;letter-spacing:.12em;text-transform:uppercase}
+  .tab .delta,.tab .lib{color:var(--muet-2)}
+  .tab.on .delta,.tab.on .lib{color:var(--or)}
+  .tab.on .sq{border-color:var(--or);background:rgba(242,180,65,.25)}
+</style>
+</head>
+<body>
+<div class="pager" id="pager">
+  <main class="ecran jour"   id="ecran-jour"></main>
+  <main class="ecran saison" id="ecran-saison"></main>
+</div>
+<nav class="tabs">
+  <div class="tab on" data-i="0"><span class="delta">Δ</span><span class="lib">Jour</span></div>
+  <div class="tab" data-i="1"><span class="sq"></span><span class="lib">Saison</span></div>
+</nav>
+
+<script>
+const A_GAUGE=83.8, R_RING=96, C_RING=2*Math.PI*R_RING;
+const or=(v,f="—")=>(v===null||v===undefined||v==="")?f:v;
+function couleur(v){ if(v==null)return"var(--muet-2)"; if(v>=80)return"var(--turquoise)";
+  if(v>=40)return"var(--vert)"; if(v>=25)return"var(--sable)"; return"var(--corail)"; }
+const SPORT={swim:"var(--bleu)",bike:"var(--vert)",run:"var(--corail)",muscu:"var(--sable)"};
+const SPORTLBL={swim:"NAT",bike:"VÉLO",run:"COURSE",muscu:"MUSCU"};
+function duree(min){ if(!min)return null; return min>=60?`${Math.floor(min/60)}H${String(min%60).padStart(2,"0")}`:`${min} MIN`; }
+// heures décimales → "3h44" / "37 min" (tuiles bilan hebdo)
+function dh(h){ if(h==null||h<=0)return null; const m=Math.round(h*60);
+  return m>=60?`${Math.floor(m/60)}h${String(m%60).padStart(2,"0")}`:`${m} min`; }
+
+function ring(indice){
+  const col=couleur(indice), frac=(indice==null?0:indice)/100;
+  return `<div style="position:relative;width:196px;height:196px;display:flex;align-items:center;justify-content:center;">
+    <svg viewBox="0 0 218 218" style="position:absolute;inset:0;">
+      <circle cx="109" cy="109" r="96" fill="none" stroke="var(--piste)" stroke-width="10"></circle>
+      <circle cx="109" cy="109" r="96" fill="none" stroke="${col}" stroke-width="10" stroke-linecap="round"
+        stroke-dasharray="${(frac*C_RING).toFixed(1)} ${C_RING.toFixed(1)}" transform="rotate(-90 109 109)"></circle></svg>
+    <div style="display:flex;flex-direction:column;align-items:center;gap:2px;">
+      <div style="font-family:var(--display);font-weight:900;font-size:66px;line-height:1;color:${col};">${or(indice)}</div>
+      <div class="etiquette" style="font-size:11px;letter-spacing:.22em;">Readiness</div></div></div>`;
+}
+function gauge(g){
+  const col=couleur(g.score), arc=(g.score==null?0:g.score/100*A_GAUGE);
+  return `<div data-cle="${g.cle}" style="display:flex;flex-direction:column;align-items:center;gap:2px;cursor:pointer;">
+    <div style="position:relative;width:56px;height:48px;">
+      <svg viewBox="0 0 52 46" style="position:absolute;inset:0;">
+        <path d="M8.7 36 A20 20 0 1 1 43.3 36" fill="none" stroke="var(--piste)" stroke-width="5" stroke-linecap="round"></path>
+        <path d="M8.7 36 A20 20 0 1 1 43.3 36" fill="none" stroke="${col}" stroke-width="5" stroke-linecap="round" stroke-dasharray="${arc.toFixed(1)} 300"></path></svg>
+      <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding-top:4px;font-weight:700;font-size:13px;color:${col};">${or(g.valeur)}</div>
+    </div><div class="etiquette" style="font-size:9px;letter-spacing:.1em;">${g.label}</div></div>`;
+}
+// Graphe readiness (toggle au clic sur l'anneau) — gère 1 point comme 20.
+function sparkline(hist){
+  const w=210,h=196,padX=15,padT=28,padB=24, box=`width:${w}px;height:${h}px`;
+  if(!hist||!hist.length) return `<div style="${box};display:flex;align-items:center;justify-content:center;color:var(--muet);font-size:12px;">Historique à venir</div>`;
+  const n=hist.length, last=hist[n-1].v, col=couleur(last);
+  const X=i=> padX + (n===1? (w-2*padX)/2 : i*(w-2*padX)/(n-1));
+  const Y=v=> padT + (100-v)/100*(h-padT-padB);
+  const pts=hist.map((p,i)=>`${X(i).toFixed(1)},${Y(p.v).toFixed(1)}`).join(" ");
+  const grid=[0,50,100].map(g=>`<line x1="${padX}" x2="${w-padX}" y1="${Y(g)}" y2="${Y(g)}" stroke="var(--trait)" stroke-width="1" stroke-dasharray="2 3"/><text x="${w-padX+2}" y="${Y(g)+3}" font-size="7" fill="var(--muet-2)">${g}</text>`).join("");
+  const dots=hist.map((p,i)=>`<circle cx="${X(i)}" cy="${Y(p.v)}" r="${i===n-1?3.5:2}" fill="${i===n-1?col:'var(--muet)'}"/>`).join("");
+  return `<div style="${box};position:relative;">
+    <div class="etiquette" style="position:absolute;top:0;left:0;right:0;text-align:center;font-size:9px;letter-spacing:.2em;">Readiness · ${n} j</div>
+    <svg viewBox="0 0 ${w} ${h}" style="position:absolute;inset:0;">${grid}
+      ${n>1?`<polyline points="${padX},${Y(0)} ${pts} ${X(n-1)},${Y(0)}" fill="${col}" opacity="0.10"/><polyline points="${pts}" fill="none" stroke="${col}" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>`:""}
+      ${dots}<text x="${X(n-1)}" y="${Y(last)-7}" font-size="12" font-weight="700" fill="${col}" text-anchor="middle">${last}</text></svg>
+    <div style="position:absolute;bottom:3px;left:${padX}px;right:${padX}px;display:flex;justify-content:space-between;font-size:8px;color:var(--muet-2);"><span>${hist[0].d}</span><span>${hist[n-1].d}</span></div></div>`;
+}
+// Bandeau des séances de la semaine (scroll horizontal + snap).
+function weekStrip(sem){
+  const ss=(sem&&sem.seances)||[]; if(!ss.length) return "";
+  const card=s=>{
+    const col=SPORT[s.discipline]||"var(--muet)", lbl=SPORTLBL[s.discipline]||"—", done=s.statut==="valide"||s.statut==="fait";
+    const mes=s.km?`${s.km} km`:(s.duree_min?duree(s.duree_min):"");
+    const badge=s.statut==="valide"?'<span style="color:var(--vert);">✓ validé</span>':s.statut==="fait"?'<span style="color:var(--turquoise);">✓ fait</span>':'<span style="color:var(--muet-2);">à venir</span>';
+    return `<div style="flex:0 0 130px;scroll-snap-align:start;background:${done?'color-mix(in srgb,'+col+' 13%,var(--carte))':'var(--carte)'};border:1px solid ${done?col:'var(--trait)'};border-left:3px solid ${col};border-radius:12px;padding:9px 11px;display:flex;flex-direction:column;gap:5px;">
+      <div style="display:flex;justify-content:space-between;align-items:baseline;"><span class="etiquette" style="font-size:9px;color:var(--texte-doux);">${s.jour}</span><span style="font-size:8.5px;font-weight:700;">${badge}</span></div>
+      <div style="font-family:var(--display);font-weight:700;font-size:11px;color:${col};">${lbl}${mes?` · ${mes}`:""}</div>
+      <div style="font-size:9.5px;color:var(--muet);line-height:1.25;height:24px;overflow:hidden;">${or(s.nom,"")}</div></div>`;
+  };
+  return `<section style="margin:14px 0 0;">
+    <div class="etiquette" style="font-size:10px;padding:0 22px 7px;">Séances de la semaine</div>
+    <div class="wk" style="display:flex;gap:8px;overflow-x:auto;scroll-snap-type:x mandatory;padding:0 18px 4px;-webkit-overflow-scrolling:touch;">${ss.map(card).join("")}</div></section>`;
+}
+// Volume de la semaine par discipline (fait / cible).
+function volumesRow(vol){
+  if(!vol) return "";
+  const row=(lbl,o,col,unite)=>{const fait=o.fait||0,cible=o.cible||0,pct=cible>0?Math.min(100,fait/cible*100):0;
+    return `<div style="display:flex;align-items:center;gap:9px;"><span class="etiquette" style="font-size:9px;width:36px;color:${col};">${lbl}</span>
+      <div style="flex:1;height:6px;border-radius:3px;background:var(--piste);overflow:hidden;"><div style="height:100%;width:${pct}%;background:${col};"></div></div>
+      <span style="font-size:11px;font-weight:700;white-space:nowrap;"><span style="color:${col};">${fait}</span><span style="color:var(--muet);"> / ${cible} ${unite||"km"}</span></span></div>`;};
+  return `<section class="carte" style="margin:12px 18px 0;padding:12px 15px;display:flex;flex-direction:column;gap:8px;">
+    <div style="display:flex;justify-content:space-between;align-items:baseline;">
+      <span class="etiquette" style="font-size:10px;">Volume de la semaine</span>
+      ${vol.total_min?`<span style="font-size:11.5px;font-weight:700;color:var(--or);">${dh(vol.total_min/60)} fait${vol.total_min>=120?"es":""}</span>`:""}</div>
+    ${row("CAP",vol.cap,"var(--corail)")}${row("NAT",vol.nat,"var(--bleu)")}${row("VÉLO",vol.velo,"var(--vert)")}${vol.muscu?row("MUSCU",vol.muscu,"var(--sable)","min"):""}</section>`;
+}
+
+function pageJour(s){
+  const p=s.prepa,f=s.forme,ps=s.prochaine_seance,v=s.volume_course,m=s.meteo,ci=s.citation;
+  const rcol=couleur(f.indice);
+  const sport=ps?SPORT[ps.discipline]:"var(--muet)", sportlbl=ps?SPORTLBL[ps.discipline]:"—";
+  const dur=ps?duree(ps.duree_min):null;
+  const bands=[["LIT",3],["MIIT",3],["HIIT",2],["VO2",2]];
+  const nb=ps&&ps.bande?ps.bande.toUpperCase():null;
+  const vcol=v?couleur(v.statut==="vert"?60:v.statut==="orange"?30:10):"var(--muet)";
+  return `
+  <header style="padding:calc(14px + env(safe-area-inset-top,44px)) 22px 0;display:flex;flex-direction:column;gap:7px;">
+    <h1 class="titre-gradient" style="font-size:16px;margin:0;padding-bottom:2px;">${s.titre.toUpperCase()}</h1>
+    <div style="display:flex;justify-content:space-between;align-items:baseline;">
+      <div class="etiquette" style="font-size:12.5px;font-weight:600;letter-spacing:.16em;color:var(--texte-doux);">Prépa · Semaine ${p.semaine} / ${p.total}</div>
+      <div style="font-family:var(--display);font-weight:900;font-size:18px;color:var(--or);">${or(p.pct)} %</div></div>
+    <div style="position:relative;height:7px;border-radius:4px;overflow:hidden;">
+      <div style="position:absolute;inset:0;background:var(--gradient-sables);opacity:.22;"></div>
+      <div style="position:absolute;top:0;bottom:0;left:0;width:${p.pct}%;background:var(--bleu);"></div>
+      <div style="position:absolute;top:-1px;bottom:-1px;left:${p.pct}%;width:3px;border-radius:2px;background:var(--calcaire);"></div></div>
+  </header>
+  <div class="scroll">
+    <div style="display:flex;align-items:baseline;justify-content:space-between;padding:12px 22px 0;">
+      <div style="font-family:var(--display);font-weight:900;font-size:21px;letter-spacing:.03em;"><span style="color:var(--or);">Δ</span>aï</div>
+      <div class="etiquette" style="font-size:11px;letter-spacing:.08em;">${p.date_label} · J−${p.j_moins}</div></div>
+    <section style="display:flex;flex-direction:column;align-items:center;padding-top:4px;">
+      <div id="rdbox" data-open="ring" style="cursor:pointer;">${ring(f.indice)}</div>
+      <blockquote style="margin:6px 0 0;max-width:300px;display:flex;flex-direction:column;gap:3px;padding:0 20px;">
+        <p style="margin:0;font-size:13px;font-weight:600;font-style:italic;color:${rcol};text-align:center;text-wrap:pretty;">«&nbsp;${ci.texte}&nbsp;»</p>
+        <footer class="etiquette" style="font-size:9.5px;letter-spacing:.16em;color:var(--muet-2);text-align:center;">${ci.auteur} · ${ci.contexte}</footer></blockquote>
+    </section>
+    <section style="display:grid;grid-template-columns:repeat(5,1fr);gap:4px;padding:14px 16px 0;">
+      ${s.jauges.map(gauge).join("")}</section>
+    <div id="gaugeTip" style="display:none;margin:8px 18px 0;padding:10px 14px;border-radius:12px;background:var(--carte);border:1px solid var(--trait);font-size:12px;color:var(--texte-doux);line-height:1.35;"></div>
+    ${weekStrip(s.semaine)}
+    ${volumesRow(s.volumes)}
+    ${m?`<section style="margin:12px 18px 0;display:flex;align-items:center;justify-content:space-between;background:rgba(14,94,120,.22);border:1px solid rgba(14,94,120,.55);border-radius:12px;padding:9px 16px;">
+      <div style="display:flex;align-items:center;gap:10px;"><span style="width:10px;height:10px;border-radius:50%;background:var(--sable);"></span>
+        <span style="font-size:12px;font-weight:600;">${m.temp_c!=null?`8h ${m.temp_c}°`:""}${m.temp_max_c!=null?` · max ${m.temp_max_c}°`:""} · ${or(m.niveau,"")}${m.lieu?` <span style="color:var(--muet);font-weight:500;">· ${m.lieu}</span>`:""}</span></div>
+      <div style="font-size:12px;font-weight:700;color:var(--sable);">${m.ajust_pct?`chaleur ${m.ajust_pct} %`:"RAS"}</div></section>`:""}
+    <div style="font-size:9px;color:var(--muet-3);text-align:center;padding:14px 0 12px;">données · ${p.date_label} · v7</div>
+  </div>`;
+}
+
+function pageSaison(s){
+  const p=s.prepa,cp=s.charge_planifiee,ds=s.derniere_semaine,se=s.seuils,b=s.blessure;
+  const maxh=Math.max(cp.pic_h,...cp.semaines.map(w=>w.reel_h||0));
+  const bars=cp.semaines.map(w=>{
+    // semaines écoulées (et en cours) : hauteur = heures RÉELLES ; à venir : heures planifiées
+    const reelle=(w.reel_h!=null && w.s<=p.semaine);
+    const hv=reelle?w.reel_h:w.h;
+    const h=(8+hv/maxh*70).toFixed(0);
+    // semaines FAITES : tranche du dégradé du titre (le strip se colore mer → sable au fil de l'année)
+    let bg="background:var(--mer);",op=".55";
+    if(w.s<p.semaine){bg=`background:var(--gradient-sables);background-size:5200% 100%;background-position:${((w.s-1)/51*100).toFixed(2)}% 0;`;op="1";}
+    else if(w.s===p.semaine){bg="background:var(--calcaire);";op="1";}
+    return `<div style="flex:1;height:100%;display:flex;align-items:flex-end;">
+      <div style="width:100%;height:${h}px;${bg}border-radius:1.5px 1.5px 0 0;opacity:${op};"></div></div>`;
+  }).join("");
+  const inj=b.level||"vert";
+  const injc=inj==="vert"?"var(--vert)":inj==="orange"?"var(--sable)":"var(--corail)";
+  const injrgb=inj==="vert"?"47,184,119":inj==="orange"?"224,169,79":"240,102,63";
+  const injlbl=inj==="vert"?"RAS":inj.toUpperCase();
+  const tile=(val,lbl,col)=>`<div class="carte" style="flex:1;border-radius:12px;border-top:3px solid ${col};padding:9px 12px;display:flex;flex-direction:column;gap:2px;">
+    <div style="font-family:var(--display);font-weight:700;font-size:13px;color:${col};">${val}</div>
+    <div class="etiquette" style="font-size:8.5px;letter-spacing:.1em;">${lbl}</div></div>`;
+  const thr=(t,col)=>`<div class="carte" style="border-radius:12px;border-top:3px solid ${col};padding:10px 13px;display:flex;flex-direction:column;gap:3px;">
+    <div style="font-family:var(--display);font-weight:700;font-size:15px;color:${col};">${t.valeur} ${t.unite}</div>
+    <div class="etiquette" style="font-size:9px;letter-spacing:.1em;">${t.label}</div></div>`;
+  return `
+  <header style="padding:calc(18px + env(safe-area-inset-top,44px)) 22px 0;display:flex;flex-direction:column;gap:3px;">
+    <h1 class="titre-gradient" style="font-size:21px;line-height:1.15;margin:0;">${s.titre.toUpperCase()}</h1>
+    <div style="display:flex;justify-content:space-between;align-items:baseline;">
+      <div class="etiquette" style="font-size:11px;letter-spacing:.08em;">Semaine ${p.semaine} / ${p.total} · Base ${p.base}</div>
+      <div style="font-size:11px;font-weight:700;color:var(--or);">J−${p.j_moins}</div></div>
+  </header>
+  <div class="scroll">
+    <section class="carte" style="margin:14px 18px 0;padding:14px 14px 10px;display:flex;flex-direction:column;gap:8px;">
+      <div style="display:flex;justify-content:space-between;align-items:baseline;">
+        <div class="etiquette" style="font-size:10px;">Charge h/sem · <span style="background:var(--gradient-sables);-webkit-background-clip:text;background-clip:text;color:transparent;font-weight:700;">réalisé</span> ▸ planifié</div>
+        <div style="font-size:11px;font-weight:700;color:var(--sable);">pic ${cp.pic_h} h · S${cp.pic_s}</div></div>
+      <div id="barsRow" style="display:flex;align-items:flex-end;gap:2px;height:84px;cursor:pointer;">${bars}</div>
+      <div class="etiquette" style="font-size:8.5px;text-align:center;color:var(--muet-2);">toucher une semaine passée pour son bilan</div>
+      <div style="display:flex;justify-content:space-between;font-size:9px;color:var(--muet-2);">
+        <span>juil. 26</span><span>nov.</span><span>mars 27</span><span>juil. 27</span></div>
+    </section>
+    <section id="dsBox" style="margin:12px 18px 0;display:flex;flex-direction:column;gap:6px;touch-action:pan-y;">
+      <div class="etiquette" style="font-size:10px;">Dernière semaine complétée${ds?` · S${ds.semaine}`:""}</div>
+      <div style="display:flex;gap:8px;">
+        ${tile(ds?`${ds.nat_km} km`:"—","Natation","var(--bleu)")}
+        ${tile(ds?`${ds.velo_h} h`:"—","Vélo","var(--vert)")}
+        ${tile(ds?`${ds.course_km} km`:"—","Course","var(--corail)")}</div>
+    </section>
+    <section class="carte" style="margin:12px 18px 0;padding:13px 14px 11px;display:flex;flex-direction:column;gap:9px;">
+      <div class="etiquette" style="font-size:10px;letter-spacing:.18em;">Squelette de la prépa</div>
+      ${(s.phases||[]).map(ph=>{
+        const fait=ph.statut==="fait",cours=ph.statut==="en_cours";
+        const dot=cours?`<span style="width:8px;height:8px;border-radius:50%;background:var(--calcaire);box-shadow:0 0 8px rgba(255,255,255,.5);"></span>`
+                 :fait?`<span style="width:8px;height:8px;border-radius:50%;background:var(--or);"></span>`
+                 :`<span style="width:8px;height:8px;border-radius:50%;border:1.5px solid var(--muet-2);"></span>`;
+        return `<div style="display:flex;gap:10px;align-items:flex-start;${ph.statut==="a_venir"?"opacity:.45;":""}">
+          <div style="display:flex;flex-direction:column;align-items:center;gap:2px;padding-top:2px;">${dot}</div>
+          <div style="flex:1;display:flex;flex-direction:column;gap:1px;">
+            <div style="display:flex;justify-content:space-between;align-items:baseline;gap:8px;">
+              <span style="font-family:var(--display);font-weight:700;font-size:12.5px;color:${cours?"var(--calcaire)":fait?"var(--or)":"var(--texte-doux)"};">${ph.nom}${cours?" · en cours":""}</span>
+              <span style="font-size:9px;color:var(--muet-2);white-space:nowrap;">S${ph.de}-S${ph.a}</span></div>
+            <div style="font-size:10.5px;line-height:1.45;color:var(--muet);">${ph.detail}</div>
+            <div style="font-size:9px;color:var(--muet-2);">${ph.periode}</div></div></div>`;
+      }).join("")}
+    </section>
+    <section style="margin:12px 18px 0;display:flex;flex-direction:column;gap:8px;">
+      <div style="display:flex;align-items:center;gap:8px;">
+        <span style="width:18px;height:3px;border-radius:2px;background:var(--or);"></span>
+        <span class="etiquette" style="font-size:10px;letter-spacing:.18em;">Repères actuels · seuils de référence</span></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+        ${thr(se.ftp,"var(--vert)")}${thr(se.allure_run,"var(--corail)")}
+        ${thr(se.css,"var(--bleu)")}${thr(se.fc_seuil,"var(--sable)")}</div>
+    </section>
+    <section class="carte" style="margin:12px 18px 14px;padding:14px 16px 16px;display:flex;flex-direction:column;align-items:center;gap:8px;">
+      <div class="etiquette" style="font-size:10px;letter-spacing:.22em;">Compteur blessure</div>
+      <div style="width:64px;height:64px;border-radius:50%;background:radial-gradient(circle at 50% 50%,rgba(${injrgb},.25) 0%,rgba(8,24,46,.9) 70%);display:flex;align-items:center;justify-content:center;">
+        <span style="width:26px;height:26px;border-radius:50%;background:radial-gradient(circle at 38% 32%,#7BE3AE,${injc} 55%,#1B7A4E);box-shadow:0 0 22px rgba(${injrgb},.65);"></span></div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:1px;">
+        <div style="font-family:var(--display);font-weight:700;font-size:13px;letter-spacing:.14em;color:${injc};">${injlbl}</div>
+        <div style="font-size:11px;color:var(--muet);">${b.triggers&&b.triggers.length?b.triggers.join(" · "):"aucun signal · tendon d'Achille surveillé"}</div></div>
+    </section>
+  </div>`;
+}
+
+function wireJour(s){
+  const box=document.getElementById("rdbox");
+  if(box) box.addEventListener("click",()=>{
+    if(box.dataset.open==="ring"){ box.innerHTML=sparkline(s.forme.historique); box.dataset.open="graph"; }
+    else { box.innerHTML=ring(s.forme.indice); box.dataset.open="ring"; }
+  });
+  const tip=document.getElementById("gaugeTip");
+  document.querySelectorAll("#ecran-jour [data-cle]").forEach(el=>el.addEventListener("click",()=>{
+    const g=(s.jauges||[]).find(x=>x.cle===el.dataset.cle); if(!g||!tip) return;
+    if(tip.dataset.cle===g.cle && tip.style.display!=="none"){ tip.style.display="none"; tip.dataset.cle=""; return; }
+    tip.innerHTML=`<b style="color:${couleur(g.score)};">${g.label} ${or(g.valeur,"")}</b> — ${or(g.explication,"—")}`;
+    tip.style.display="block"; tip.dataset.cle=g.cle;
+  }));
+}
+// Fiche bilan d'une semaine (toucher la bande de barres de l'écran Saison).
+// Un seul gestionnaire sur la bande : on retrouve la semaine la plus proche du point touché
+// (les colonnes font ~4 px — intappables individuellement au doigt).
+function wireSaison(s){
+  const old=document.getElementById("bilanOv"); if(old) old.remove();
+  const row=document.getElementById("barsRow"); if(!row) return;
+  row.addEventListener("click",ev=>{
+    const r=row.getBoundingClientRect();
+    const idx=Math.max(0,Math.min(51,Math.floor((ev.clientX-r.left)/r.width*52)));
+    let w=null,best=99;
+    for(const x of s.charge_planifiee.semaines){
+      if(!x.bilan) continue;
+      const d=Math.abs((x.s-1)-idx);
+      if(d<best){best=d;w=x;}
+    }
+    if(!w||best>2) return;   // rien à moins de 2 semaines du doigt → on ignore
+    openBilan(w);
+  });
+  // « Dernière semaine complétée » : navigable par semaine (swipe + chevrons), même principe.
+  const box=document.getElementById("dsBox");
+  const dsems=s.charge_planifiee.semaines.filter(x=>x.bilan);
+  if(box&&dsems.length){
+    const lastDone=dsems.map((x,k)=>x.bilan.en_cours?-1:k).reduce((a,b)=>Math.max(a,b),-1);
+    let i=lastDone>=0?lastDone:dsems.length-1;
+    const dtile=(val,sub,lbl,col)=>`<div class="carte" style="flex:1;border-radius:12px;border-top:3px solid ${col};padding:9px 12px;display:flex;flex-direction:column;gap:2px;">
+      <div style="font-family:var(--display);font-weight:700;font-size:13px;color:${col};">${val}</div>
+      ${sub?`<div style="font-size:10.5px;font-weight:600;color:var(--texte-doux);">${sub}</div>`:`<div style="font-size:10.5px;color:var(--muet-2);">·</div>`}
+      <div class="etiquette" style="font-size:8.5px;letter-spacing:.1em;">${lbl}</div></div>`;
+    const render=()=>{
+      const x=dsems[i],b=x.bilan,prev=dsems[i-1],next=dsems[i+1];
+      const titre=(i===lastDone)?`Dernière semaine complétée · S${x.s}`:`Semaine S${x.s}${b.en_cours?" · en cours":""}`;
+      box.innerHTML=`
+      <div style="display:flex;justify-content:space-between;align-items:center;">
+        <div data-nav="prev" style="min-width:28px;padding:2px 0;font-size:14px;font-weight:700;color:${prev?"var(--or)":"var(--muet-2)"};cursor:${prev?"pointer":"default"};">${prev?"‹":""}</div>
+        <div style="display:flex;flex-direction:column;align-items:center;gap:1px;">
+          <div class="etiquette" style="font-size:10px;text-align:center;">${titre}</div>
+          <div style="font-size:9.5px;color:var(--muet);">${b.periode} · <span style="color:var(--or);font-weight:700;">${dh(b.h_total)||"0h"}</span> / ${x.h} h prévues</div></div>
+        <div data-nav="next" style="min-width:28px;padding:2px 0;text-align:right;font-size:14px;font-weight:700;color:${next?"var(--or)":"var(--muet-2)"};cursor:${next?"pointer":"default"};">${next?"›":""}</div></div>
+      <div style="display:flex;gap:8px;">
+        ${dtile(dh(b.nat_h)||"—",b.nat_km?`${b.nat_km} km`:"","Nat","var(--bleu)")}
+        ${dtile(dh(b.velo_h)||"—",b.velo_km?`${b.velo_km} km`:"","Vélo","var(--vert)")}
+        ${dtile(dh(b.course_h)||"—",b.course_km?`${b.course_km} km`:"","Course","var(--corail)")}
+        ${dtile(dh(b.muscu_h)||"—",b.muscu_n?`${b.muscu_n} séance${b.muscu_n>1?"s":""}`:"","Muscu","var(--sable)")}</div>`;
+    };
+    render();
+    const go=d=>{const n=i+d; if(n>=0&&n<dsems.length){i=n;render();}};
+    box.addEventListener("click",e=>{const nav=e.target.closest("[data-nav]"); if(nav) go(nav.dataset.nav==="next"?1:-1);});
+    let dx0=null,dy0=null;
+    box.addEventListener("touchstart",e=>{dx0=e.touches[0].clientX;dy0=e.touches[0].clientY;},{passive:true});
+    box.addEventListener("touchend",e=>{
+      if(dx0===null) return;
+      const dx=e.changedTouches[0].clientX-dx0,dy=e.changedTouches[0].clientY-dy0;
+      dx0=dy0=null;
+      if(Math.abs(dx)>40&&Math.abs(dx)>Math.abs(dy)) go(dx<0?1:-1);
+    },{passive:true});
+  }
+  function openBilan(w){
+    // Fenêtre navigable : swipe gauche/droite (ou chevrons) entre les semaines qui ont un bilan.
+    const sems=s.charge_planifiee.semaines.filter(x=>x.bilan);
+    let cur=sems.findIndex(x=>x.s===w.s);
+    if(cur<0) return;
+    const tile=(val,sub,lbl,col)=>`<div class="carte" style="flex:1;border-radius:10px;border-top:3px solid ${col};padding:7px 9px;display:flex;flex-direction:column;gap:1px;">
+      <div style="font-family:var(--display);font-weight:700;font-size:12.5px;color:${col};">${val}</div>
+      ${sub?`<div style="font-size:10px;font-weight:600;color:var(--texte-doux);">${sub}</div>`:""}
+      <div class="etiquette" style="font-size:8px;letter-spacing:.08em;">${lbl}</div></div>`;
+    const ov=document.createElement("div");
+    ov.id="bilanOv";
+    ov.style.cssText="position:fixed;inset:0;z-index:50;background:rgba(3,8,18,.74);backdrop-filter:blur(5px);display:flex;align-items:center;justify-content:center;padding:24px;";
+    const card=document.createElement("div");
+    card.className="carte";
+    card.style.cssText="max-width:350px;width:100%;max-height:72vh;overflow-y:auto;border-radius:16px;padding:17px 17px 12px;display:flex;flex-direction:column;gap:11px;touch-action:pan-y;";
+    const render=()=>{
+      const x=sems[cur],b=x.bilan,prev=sems[cur-1],next=sems[cur+1];
+      card.innerHTML=`
+      <div style="display:flex;justify-content:space-between;align-items:baseline;gap:8px;">
+        <div style="font-family:var(--display);font-weight:800;font-size:17px;color:var(--or);">S${x.s}${b.en_cours?" · en cours":""}</div>
+        <div style="font-size:10.5px;color:var(--muet);">${b.periode}</div></div>
+      <div style="display:flex;gap:7px;flex-wrap:wrap;">
+        ${tile(dh(b.h_total)||"—",`${b.n} séance${b.n>1?"s":""}`,"TOTAL","var(--or)")}
+        ${tile(dh(b.nat_h)||"—",b.nat_km?`${b.nat_km} km`:"","NAT","var(--bleu)")}
+        ${tile(dh(b.velo_h)||"—",b.velo_km?`${b.velo_km} km`:"","VÉLO","var(--vert)")}
+        ${tile(dh(b.course_h)||"—",b.course_km?`${b.course_km} km`:"","COURSE","var(--corail)")}
+        ${b.muscu_n?tile(dh(b.muscu_h)||"—",`${b.muscu_n} séance${b.muscu_n>1?"s":""}`,"MUSCU","var(--sable)"):""}</div>
+      <div style="font-size:12.5px;line-height:1.6;color:var(--texte-doux);">${b.lecture||(b.en_cours?"Semaine en cours — bilan au prochain dimanche.":"Bilan non rédigé pour cette semaine.")}</div>
+      <div style="display:flex;justify-content:space-between;align-items:center;">
+        <div data-nav="prev" style="min-width:56px;padding:5px 0;font-size:12px;font-weight:700;color:${prev?"var(--or)":"var(--muet-2)"};cursor:${prev?"pointer":"default"};">${prev?`‹ S${prev.s}`:""}</div>
+        <div class="etiquette" style="font-size:8.5px;color:var(--muet-2);">glisser · toucher à côté pour fermer</div>
+        <div data-nav="next" style="min-width:56px;padding:5px 0;text-align:right;font-size:12px;font-weight:700;color:${next?"var(--or)":"var(--muet-2)"};cursor:${next?"pointer":"default"};">${next?`S${next.s} ›`:""}</div></div>`;
+    };
+    render();
+    const go=dir=>{ const n=cur+dir; if(n>=0&&n<sems.length){cur=n;render();} };
+    card.addEventListener("click",e=>{
+      e.stopPropagation();
+      const nav=e.target.closest("[data-nav]");
+      if(nav) go(nav.dataset.nav==="next"?1:-1);
+    });
+    let x0=null,y0=null;
+    card.addEventListener("touchstart",e=>{x0=e.touches[0].clientX;y0=e.touches[0].clientY;},{passive:true});
+    card.addEventListener("touchend",e=>{
+      if(x0===null) return;
+      const dx=e.changedTouches[0].clientX-x0,dy=e.changedTouches[0].clientY-y0;
+      x0=y0=null;
+      if(Math.abs(dx)>40&&Math.abs(dx)>Math.abs(dy)) go(dx<0?1:-1);   // swipe gauche → semaine suivante
+    },{passive:true});
+    ov.addEventListener("click",()=>ov.remove());
+    ov.appendChild(card);
+    document.body.appendChild(ov);
+  }
+}
+function load(){
+  return fetch("coach_state.json?"+Date.now(),{cache:"no-store"}).then(r=>r.json()).then(s=>{
+    document.getElementById("ecran-jour").innerHTML=pageJour(s);
+    document.getElementById("ecran-saison").innerHTML=pageSaison(s);
+    wireJour(s);
+    wireSaison(s);
+  }).catch(()=>{
+    document.getElementById("ecran-jour").innerHTML='<div style="padding:60px 22px;"><div class="titre-gradient" style="font-family:var(--display);font-size:22px;">Δaï</div><p style="color:var(--muet);">Données indisponibles. Lance <code>python3 build_web_state.py</code> puis sers le dossier <code>web/</code>.</p></div>';
+  });
+}
+load();
+// L'app iPhone en mode standalone « reprend » la page figée au lieu de la recharger (d'où
+// l'icône coincée sur un vieux jour). On refetch les données à chaque retour au premier plan.
+document.addEventListener("visibilitychange",()=>{ if(document.visibilityState==="visible") load(); });
+window.addEventListener("pageshow",()=>load());
+// Et on force le service worker à vérifier sa mise à jour à chaque ouverture.
+if("serviceWorker" in navigator) navigator.serviceWorker.getRegistration().then(r=>r&&r.update()).catch(()=>{});
+
+// onglets <-> swipe
+const pager=document.getElementById("pager"), tabs=document.querySelectorAll(".tab");
+tabs.forEach(t=>t.addEventListener("click",()=>{
+  const left=t.dataset.i*pager.clientWidth;
+  pager.scrollTo({left,behavior:"smooth"});
+  setTimeout(()=>{ if(Math.abs(pager.scrollLeft-left)>2) pager.scrollLeft=left; },400); // fallback si smooth indispo
+}));
+pager.addEventListener("scroll",()=>{
+  const i=Math.round(pager.scrollLeft/pager.clientWidth);
+  tabs.forEach((t,k)=>t.classList.toggle("on",k===i));
+},{passive:true});
+
+if("serviceWorker" in navigator){navigator.serviceWorker.register("sw.js").catch(()=>{});}
+</script>
+</body>
+</html>

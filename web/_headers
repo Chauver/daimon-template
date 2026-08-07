@@ -1,0 +1,7 @@
+# Cloudflare Pages — règles d'en-têtes.
+# Les données du jour ne doivent jamais être mises en cache (toujours la dernière version).
+/coach_state.json
+  Cache-Control: no-store
+# La bibliothèque de citations change rarement : petit cache.
+/citations.json
+  Cache-Control: max-age=3600

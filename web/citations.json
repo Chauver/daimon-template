@@ -1,0 +1,812 @@
+{
+  "_meta": {
+    "description": "Bibliotheque de citations du coach Daimon. Affichage en francais (traduction fidele de la VO). tags = situations pour la selection contextuelle dans l'appli. confiance: solide = presse spe/discours/IMDb ; a_confirmer = attribution qui circule mais non verifiee a la source primaire.",
+    "maj": "2026-07-12",
+    "total": 57
+  },
+  "citations": [
+    {
+      "id": "sanders-greenday",
+      "fr": "Les jours verts sont rares quand tu es en pleine charge — c'est là qu'il faut placer les séances vraiment dures.",
+      "vo": "Green Days are moderately few and far between when you're in the midst of heavy training... you want to utilise these green days to do the really hard workouts.",
+      "auteur": "Lionel Sanders",
+      "role": "Triathlete pro (recordman Ironman 70.3)",
+      "source": "whatsonzwift.com / Whoop Workout Series — Green Day",
+      "tags": [
+        "green_day",
+        "forme_haute",
+        "seance_dure"
+      ],
+      "confiance": "solide"
+    },
+    {
+      "id": "iden-froid",
+      "fr": "Le moteur se construit quand tu dois te réchauffer en t'entraînant dans le froid. Tu ne peux pas ralentir sous la pluie, sinon tu gèles — alors même vidé, tu continues.",
+      "vo": "The engine gets built when you have to keep warm while training in the cold. You can't slow down when it's raining because you'll freeze, so even when you're empty, you just have to keep going.",
+      "auteur": "Gustav Iden",
+      "role": "Champion du monde Ironman 2022",
+      "source": "triathlonmagazine.ca",
+      "tags": [
+        "froid",
+        "norvegien",
+        "seance_dure",
+        "regularite"
+      ],
+      "confiance": "solide"
+    },
+    {
+      "id": "iden-data",
+      "fr": "On ne fait pas ces tests pour impressionner qui que ce soit — on les fait pour récolter des données et nous entraîner plus intelligemment.",
+      "vo": "We don't do these tests to impress anyone, we do it to gather data so we can do smarter training in the future.",
+      "auteur": "Gustav Iden",
+      "role": "Champion du monde Ironman 2022",
+      "source": "tri247.com — Norwegian method",
+      "tags": [
+        "norvegien",
+        "process",
+        "regularite"
+      ],
+      "confiance": "solide"
+    },
+    {
+      "id": "norvegiens-plaisir",
+      "fr": "Si tu te répètes que tu prends du plaisir, tu finiras par en prendre.",
+      "vo": "If you tell yourself you're enjoying it, you will.",
+      "auteur": "Kristian Blummenfelt & Gustav Iden",
+      "role": "Champions olympique et du monde",
+      "source": "trainingpeaks.com — Norwegian method",
+      "tags": [
+        "joie",
+        "norvegien",
+        "seance_facile",
+        "seance_longue"
+      ],
+      "confiance": "solide"
+    },
+    {
+      "id": "macca-hurtlocker",
+      "fr": "Quand tes jambes hurlent stop et que tes poumons explosent, c'est là que ça commence. C'est le hurt locker. Les vainqueurs adorent y être.",
+      "vo": "When your legs scream 'stop' and your lungs are bursting, that's when it starts. That's the hurt locker. Winners love it in there.",
+      "auteur": "Chris McCormack",
+      "role": "Champion du monde Ironman 2007 & 2010",
+      "source": "rouvy.com — best triathlon quotes",
+      "tags": [
+        "seance_dure",
+        "souffrance",
+        "jour_course"
+      ],
+      "confiance": "solide"
+    },
+    {
+      "id": "kienle-hurting",
+      "fr": "Si ça me fait mal, ça les tue.",
+      "vo": "If it's hurting me, it's killing them.",
+      "auteur": "Sebastian Kienle",
+      "role": "Champion du monde Ironman 2014",
+      "source": "rouvy.com — best triathlon quotes",
+      "tags": [
+        "seance_dure",
+        "souffrance",
+        "jour_course"
+      ],
+      "confiance": "solide"
+    },
+    {
+      "id": "kienle-mind",
+      "fr": "C'est ton corps qui te porte jusqu'à la ligne, mais c'est ta tête qui te la fait franchir.",
+      "vo": "Your body drives you to the finish line, but your mind makes you cross it.",
+      "auteur": "Sebastian Kienle",
+      "role": "Champion du monde Ironman 2014",
+      "source": "220triathlon.com",
+      "tags": [
+        "mental",
+        "jour_course",
+        "souffrance"
+      ],
+      "confiance": "solide"
+    },
+    {
+      "id": "ryf-pain",
+      "fr": "Ce n'est pas que j'aime la douleur. Mais il faut l'accepter et la retourner à ton avantage : une fois dans cette zone, ton cerveau oublie qu'il n'est pas dans son confort.",
+      "vo": "It's not that I like pain. But it's about accepting it and making it to your advantage. Because once you're in that zone, if you can accept it your brain will forget it's not in its comfort zone.",
+      "auteur": "Daniela Ryf",
+      "role": "5x championne du monde Ironman",
+      "source": "220triathlon.com",
+      "tags": [
+        "souffrance",
+        "mental",
+        "seance_dure"
+      ],
+      "confiance": "solide"
+    },
+    {
+      "id": "ryf-trainharder",
+      "fr": "Entraîne-toi plus dur que tu ne cours ; tu géreras d'autant mieux le jour J.",
+      "vo": "I believe the key is to train harder than you race, and then you deal with it more successfully in the race.",
+      "auteur": "Daniela Ryf",
+      "role": "5x championne du monde Ironman",
+      "source": "220triathlon.com",
+      "tags": [
+        "seance_dure",
+        "mental",
+        "regularite"
+      ],
+      "confiance": "solide"
+    },
+    {
+      "id": "ryf-situation",
+      "fr": "Réussir, ce n'est pas tout gagner : c'est tirer le meilleur de chaque situation.",
+      "vo": "Success doesn't mean to win everything, but to make the best out of every situation.",
+      "auteur": "Daniela Ryf",
+      "role": "5x championne du monde Ironman",
+      "source": "mindtraining.net",
+      "tags": [
+        "process",
+        "doute",
+        "jour_course"
+      ],
+      "confiance": "a_confirmer"
+    },
+    {
+      "id": "allen-legs",
+      "fr": "Tu peux continuer, et tes jambes te feront mal une semaine ; ou tu peux abandonner, et ta tête te fera mal toute la vie.",
+      "vo": "You can keep going and your legs might hurt for a week, or you can quit and your mind will hurt for a lifetime.",
+      "auteur": "Mark Allen",
+      "role": "6x champion du monde Ironman",
+      "source": "active.com — Ironman champions quotes",
+      "tags": [
+        "souffrance",
+        "mental",
+        "jour_course"
+      ],
+      "confiance": "solide"
+    },
+    {
+      "id": "allen-fears",
+      "fr": "Tant que tu n'affrontes pas tes peurs, tu ne passes pas de l'autre côté — là où se trouve ta force.",
+      "vo": "Until you face your fears, you don't move to the other side, where you find your power.",
+      "auteur": "Mark Allen",
+      "role": "6x champion du monde Ironman",
+      "source": "practiceofthepractice.com — interview",
+      "tags": [
+        "mental",
+        "confiance",
+        "doute"
+      ],
+      "confiance": "solide"
+    },
+    {
+      "id": "allen-hundred",
+      "fr": "J'ai appris à donner 100 %, même quand mon 100 % du moment ne valait que 20 % de mon niveau habituel.",
+      "vo": "My ability to continue giving 100%, even if my 100% in that moment was only 20% of my usual output.",
+      "auteur": "Mark Allen",
+      "role": "6x champion du monde Ironman",
+      "source": "practiceofthepractice.com — interview",
+      "tags": [
+        "mental",
+        "forme_basse",
+        "souffrance"
+      ],
+      "confiance": "solide"
+    },
+    {
+      "id": "wellington-smile",
+      "fr": "Ne jamais, jamais abandonner — et sourire.",
+      "vo": "Never, ever give up - and smile.",
+      "auteur": "Chrissie Wellington",
+      "role": "4x championne du monde Ironman",
+      "source": "220triathlon.com — on mental strength",
+      "tags": [
+        "mental",
+        "jour_course",
+        "joie"
+      ],
+      "confiance": "solide"
+    },
+    {
+      "id": "wellington-mind",
+      "fr": "L'esprit abandonne toujours avant le corps.",
+      "vo": "The mind will always give up before the body.",
+      "auteur": "Chrissie Wellington",
+      "role": "4x championne du monde Ironman",
+      "source": "220triathlon.com — on mental strength",
+      "tags": [
+        "mental",
+        "souffrance"
+      ],
+      "confiance": "solide"
+    },
+    {
+      "id": "wellington-stones",
+      "fr": "Certaines séances sont des étoiles, d'autres des cailloux ; mais ce sont toutes des pierres, et on bâtit dessus.",
+      "vo": "Some sessions are stars and some sessions are stones, but in the end they are all rocks and we build upon them.",
+      "auteur": "Chrissie Wellington",
+      "role": "4x championne du monde Ironman",
+      "source": "triathlete.com — top quotes of the decade",
+      "tags": [
+        "regularite",
+        "seance_facile",
+        "doute",
+        "process"
+      ],
+      "confiance": "solide"
+    },
+    {
+      "id": "frodeno-everyday",
+      "fr": "Le succès ne se joue pas sur ce que tu fais une fois, mais sur ce que tu fais chaque jour.",
+      "vo": "Success is not determined by what you do once, but by what you do every day.",
+      "auteur": "Jan Frodeno",
+      "role": "3x champion du monde Ironman, champion olympique 2008",
+      "source": "rouvy.com — best triathlon quotes",
+      "tags": [
+        "regularite",
+        "discipline",
+        "process"
+      ],
+      "confiance": "solide"
+    },
+    {
+      "id": "frodeno-mundane",
+      "fr": "L'excellence se construit dans l'ordinaire.",
+      "vo": "Excellence is built in the mundane.",
+      "auteur": "Jan Frodeno",
+      "role": "3x champion du monde Ironman, champion olympique 2008",
+      "source": "tri247.com",
+      "tags": [
+        "regularite",
+        "discipline",
+        "seance_facile"
+      ],
+      "confiance": "solide"
+    },
+    {
+      "id": "frodeno-pressure",
+      "fr": "La pression est un privilège.",
+      "vo": "Pressure is a privilege.",
+      "auteur": "Jan Frodeno",
+      "role": "3x champion du monde Ironman, champion olympique 2008",
+      "source": "220triathlon.com",
+      "tags": [
+        "confiance",
+        "jour_course"
+      ],
+      "confiance": "solide"
+    },
+    {
+      "id": "frodeno-love",
+      "fr": "Je suis mort en faisant ce que j'aime.",
+      "vo": "I died doing what I love.",
+      "auteur": "Jan Frodeno",
+      "role": "3x champion du monde Ironman",
+      "source": "tri247.com — IMWC Nice 2023",
+      "tags": [
+        "joie",
+        "jour_course"
+      ],
+      "confiance": "solide"
+    },
+    {
+      "id": "frodeno-honest",
+      "fr": "Le triathlon te garde honnête : tu ne peux pas tricher, tu récoltes ce que tu sèmes.",
+      "vo": "You can't cheat your way through it. You get a lot of return for what you put in... it keeps you very honest.",
+      "auteur": "Jan Frodeno",
+      "role": "3x champion du monde Ironman",
+      "source": "mindtraining.net",
+      "tags": [
+        "process",
+        "regularite",
+        "discipline"
+      ],
+      "confiance": "a_confirmer"
+    },
+    {
+      "id": "davescott-goal",
+      "fr": "Fixe-toi un objectif et atteins-le — finir, progresser ou gagner — et tu as gagné ta course.",
+      "vo": "If you set a goal for yourself and are able to achieve it, you have won your race... it's up to you.",
+      "auteur": "Dave Scott",
+      "role": "6x champion du monde Ironman",
+      "source": "practiceofthepractice.com",
+      "tags": [
+        "jour_course",
+        "confiance"
+      ],
+      "confiance": "solide"
+    },
+    {
+      "id": "davescott-training",
+      "fr": "La course se gagne ou se perd à l'entraînement. Dans le hurt locker, c'est le mental qui te fait avancer.",
+      "vo": "The race is won or lost in training. The mind tells the body what to do. When you are in the hurt locker, it's the mental ability to stay calm and keep moving forward.",
+      "auteur": "Dave Scott",
+      "role": "6x champion du monde Ironman",
+      "source": "rouvy.com — best triathlon quotes",
+      "tags": [
+        "regularite",
+        "souffrance",
+        "process"
+      ],
+      "confiance": "solide"
+    },
+    {
+      "id": "crowie-controllables",
+      "fr": "Ne contrôle que ce qui est contrôlable.",
+      "vo": "Only try to control the controllables.",
+      "auteur": "Craig Alexander",
+      "role": "3x champion du monde Ironman",
+      "source": "220triathlon.com",
+      "tags": [
+        "jour_course",
+        "confiance",
+        "doute"
+      ],
+      "confiance": "solide"
+    },
+    {
+      "id": "collins-quit",
+      "fr": "Tu peux abandonner, et personne ne t'en voudra. Mais toi, tu le sauras toute ta vie.",
+      "vo": "You can quit if you want, and no one will care. But you will know the rest of your life.",
+      "auteur": "John Collins",
+      "role": "Fondateur de l'Ironman",
+      "source": "rouvy.com — best triathlon quotes",
+      "tags": [
+        "jour_course",
+        "mental",
+        "souffrance"
+      ],
+      "confiance": "solide"
+    },
+    {
+      "id": "lange-failure",
+      "fr": "C'est dans l'échec qu'on apprend le plus — si on y reste ouvert.",
+      "vo": "Out of failure we learn the most if we are open to it.",
+      "auteur": "Patrick Lange",
+      "role": "Champion du monde Ironman 2017, 2018, 2024",
+      "source": "220triathlon.com",
+      "tags": [
+        "blessure",
+        "doute",
+        "process"
+      ],
+      "confiance": "solide"
+    },
+    {
+      "id": "lcb-head",
+      "fr": "Il faut rester incroyablement fort dans sa tête si on veut réussir.",
+      "vo": "You have got to stay so strong in your own head if you want to succeed.",
+      "auteur": "Lucy Charles-Barclay",
+      "role": "Championne du monde Ironman 2023",
+      "source": "redbull.com",
+      "tags": [
+        "confiance",
+        "mental",
+        "doute"
+      ],
+      "confiance": "solide"
+    },
+    {
+      "id": "lcb-goal",
+      "fr": "Il me fallait un objectif qui me fasse assez peur pour me remettre à l'entraînement.",
+      "vo": "I knew I needed a goal that scared me enough to start training again.",
+      "auteur": "Lucy Charles-Barclay",
+      "role": "Championne du monde Ironman 2023",
+      "source": "redbull.com",
+      "tags": [
+        "blessure",
+        "confiance",
+        "process"
+      ],
+      "confiance": "solide"
+    },
+    {
+      "id": "lcb-hungry",
+      "fr": "Qu'on te dise que tu n'es pas assez bon, ça te donne juste faim de prouver le contraire.",
+      "vo": "Being told you're not good enough just makes you hungry to prove those people wrong.",
+      "auteur": "Lucy Charles-Barclay",
+      "role": "Championne du monde Ironman 2023",
+      "source": "220triathlon.com",
+      "tags": [
+        "confiance",
+        "doute",
+        "mental"
+      ],
+      "confiance": "solide"
+    },
+    {
+      "id": "laidlow-conventional",
+      "fr": "Remettre en question les idées reçues est devenu mon plus grand avantage.",
+      "vo": "Why questioning conventional wisdom became his greatest competitive advantage.",
+      "auteur": "Sam Laidlow",
+      "role": "Champion du monde Ironman 2023, recordman du monde longue distance",
+      "source": "triathlete.com — Roth 2026 interview / Going Mental podcast",
+      "tags": [
+        "confiance",
+        "process",
+        "doute"
+      ],
+      "confiance": "a_confirmer"
+    },
+    {
+      "id": "brownlee-work",
+      "fr": "Pas de secret, pas de raccourci : se présenter et faire le travail, même les jours sans.",
+      "vo": "No secrets, no shortcuts - just showing up and doing the work, even on the days when motivation is low.",
+      "auteur": "Alistair Brownlee",
+      "role": "2x champion olympique de triathlon",
+      "source": "tri247.com — mindset advice",
+      "tags": [
+        "regularite",
+        "discipline",
+        "seance_facile",
+        "forme_basse"
+      ],
+      "confiance": "a_confirmer"
+    },
+    {
+      "id": "carfrae-lead",
+      "fr": "Aucune avance n'est à l'abri tant que je cours encore.",
+      "vo": "No lead was safe if she was still running.",
+      "auteur": "Mirinda Carfrae",
+      "role": "3x championne du monde Ironman",
+      "source": "triathlete.com — Kona 2014",
+      "tags": [
+        "jour_course",
+        "patience",
+        "confiance"
+      ],
+      "confiance": "a_confirmer"
+    },
+    {
+      "id": "vollmer-roughpatches",
+      "fr": "C'est ce que tu fais des passages difficiles qui définira l'athlète que tu deviendras.",
+      "vo": "It's what you do with the rough patches that will define the athlete that you'll become.",
+      "auteur": "Dana Vollmer",
+      "role": "Championne olympique de natation",
+      "source": "rouvy.com — best triathlon quotes",
+      "tags": [
+        "blessure",
+        "doute",
+        "mental"
+      ],
+      "confiance": "solide"
+    },
+    {
+      "id": "restwise-recovery",
+      "fr": "Le travail crée les conditions de l'adaptation. Mais l'adaptation, elle, se produit pendant la récupération.",
+      "vo": "Hard work creates the conditions for physiological adaptations. And adaptation happens during recovery.",
+      "auteur": "Matthew Weatherley-White",
+      "role": "Cofondateur de Restwise (recuperation)",
+      "source": "triathlete.com — recovery myths",
+      "tags": [
+        "recup",
+        "sommeil",
+        "patience"
+      ],
+      "confiance": "a_confirmer"
+    },
+    {
+      "id": "merckx-suffer",
+      "fr": "La course est gagnée par celui qui sait le plus souffrir.",
+      "vo": "The race is won by the rider who can suffer the most.",
+      "auteur": "Eddy Merckx",
+      "role": "Legende du cyclisme (11 grands tours)",
+      "source": "rouvy.com — best triathlon quotes",
+      "tags": [
+        "souffrance",
+        "seance_dure",
+        "jour_course",
+        "canicule"
+      ],
+      "confiance": "solide"
+    },
+    {
+      "id": "merckx-yourself",
+      "fr": "Le seul facteur que tu gardes vraiment en main, c'est toi-même. J'ai toujours mis l'accent là-dessus.",
+      "vo": "The most important factor you can keep in your own hands is yourself. I always placed the greatest emphasis on that.",
+      "auteur": "Eddy Merckx",
+      "role": "Legende du cyclisme (11 grands tours)",
+      "source": "rouvy.com — best triathlon quotes",
+      "tags": [
+        "confiance",
+        "process",
+        "jour_course"
+      ],
+      "confiance": "solide"
+    },
+    {
+      "id": "kipchoge-limited",
+      "fr": "Aucun humain n'est limité.",
+      "vo": "No human is limited.",
+      "auteur": "Eliud Kipchoge",
+      "role": "Recordman et champion olympique du marathon",
+      "source": "citiusmag.com — Oxford speech",
+      "tags": [
+        "mental",
+        "confiance",
+        "jour_course"
+      ],
+      "confiance": "solide"
+    },
+    {
+      "id": "kipchoge-disciplined",
+      "fr": "Seuls les disciplinés sont libres. L'indiscipliné est l'esclave de ses humeurs et de ses passions.",
+      "vo": "Only the disciplined ones in life are free. If you are undisciplined, you are a slave to your moods and your passions.",
+      "auteur": "Eliud Kipchoge",
+      "role": "Recordman et champion olympique du marathon",
+      "source": "citiusmag.com — Oxford speech",
+      "tags": [
+        "discipline",
+        "regularite",
+        "process"
+      ],
+      "confiance": "solide"
+    },
+    {
+      "id": "kipchoge-pain",
+      "fr": "Quand j'ai très mal, j'essaie d'embrouiller mon esprit pour oublier la douleur et penser à la distance.",
+      "vo": "When I have a lot of pain, I try to confuse my mind to forget about the pain and think about the distance.",
+      "auteur": "Eliud Kipchoge",
+      "role": "Recordman et champion olympique du marathon",
+      "source": "brainyquote.com",
+      "tags": [
+        "souffrance",
+        "mental",
+        "seance_dure"
+      ],
+      "confiance": "a_confirmer"
+    },
+    {
+      "id": "sheehan-voice",
+      "fr": "La compétition, c'est contre la petite voix en toi qui veut que tu abandonnes.",
+      "vo": "The competition is against the little voice inside you that wants you to quit.",
+      "auteur": "George Sheehan",
+      "role": "Medecin et philosophe de la course a pied",
+      "source": "rouvy.com — best triathlon quotes",
+      "tags": [
+        "mental",
+        "souffrance",
+        "course"
+      ],
+      "confiance": "solide"
+    },
+    {
+      "id": "sheehan-strenuous",
+      "fr": "La vie exigeante a meilleur goût.",
+      "vo": "The strenuous life tastes better.",
+      "auteur": "George Sheehan",
+      "role": "Medecin et philosophe de la course a pied",
+      "source": "rouvy.com — best triathlon quotes",
+      "tags": [
+        "joie",
+        "regularite"
+      ],
+      "confiance": "solide"
+    },
+    {
+      "id": "karnazes-crawl",
+      "fr": "Cours quand tu peux, marche s'il le faut, rampe si tu dois — mais n'abandonne jamais.",
+      "vo": "Run when you can, walk if you have to, crawl if you must; just never give up.",
+      "auteur": "Dean Karnazes",
+      "role": "Ultramarathonien",
+      "source": "rouvy.com — best triathlon quotes",
+      "tags": [
+        "mental",
+        "souffrance",
+        "forme_basse",
+        "jour_course"
+      ],
+      "confiance": "solide"
+    },
+    {
+      "id": "isphording-joy",
+      "fr": "Cours souvent, cours longtemps — mais ne distance jamais ton plaisir de courir.",
+      "vo": "Run often. Run long. But never outrun your joy of running.",
+      "auteur": "Julie Isphording",
+      "role": "Ancienne coureuse olympique",
+      "source": "rouvy.com — best triathlon quotes",
+      "tags": [
+        "joie",
+        "course",
+        "seance_facile"
+      ],
+      "confiance": "solide"
+    },
+    {
+      "id": "henderson-gorilla",
+      "fr": "S'entraîner, c'est se battre avec un gorille : tu ne t'arrêtes pas quand tu es fatigué, tu t'arrêtes quand le gorille est fatigué.",
+      "vo": "Training is like fighting with a gorilla. You don't stop when you're tired. You stop when the gorilla is tired.",
+      "auteur": "Greg Henderson",
+      "role": "Ancien cycliste pro",
+      "source": "rouvy.com — best triathlon quotes",
+      "tags": [
+        "seance_dure",
+        "regularite",
+        "souffrance"
+      ],
+      "confiance": "a_confirmer"
+    },
+    {
+      "id": "jones-limits",
+      "fr": "Je ne peux pas contrôler ce que nagent les autres ; mais si tout se passe bien, je sais qu'il n'y a pas de limites.",
+      "vo": "I can't control what everyone else swims, but if all goes well I know there are no limits.",
+      "auteur": "Leisel Jones",
+      "role": "Championne olympique de natation",
+      "source": "rouvy.com — best triathlon quotes",
+      "tags": [
+        "natation",
+        "confiance",
+        "jour_course"
+      ],
+      "confiance": "solide"
+    },
+    {
+      "id": "gandalf-time",
+      "fr": "Tout ce que nous avons à décider, c'est quoi faire du temps qui nous est imparti.",
+      "vo": "All you have to decide is what to do with the time that is given to you.",
+      "auteur": "Gandalf",
+      "role": "Le Seigneur des Anneaux (J.R.R. Tolkien / P. Jackson)",
+      "source": "IMDb — The Fellowship of the Ring (2001)",
+      "tags": [
+        "mental",
+        "process",
+        "doute",
+        "recup"
+      ],
+      "confiance": "solide"
+    },
+    {
+      "id": "morpheus-know",
+      "fr": "Ne crois pas que tu l'es. Sache-le.",
+      "vo": "Don't think you are, know you are.",
+      "auteur": "Morpheus",
+      "role": "The Matrix (1999)",
+      "source": "IMDb — The Matrix quotes",
+      "tags": [
+        "confiance",
+        "jour_course",
+        "green_day"
+      ],
+      "confiance": "solide"
+    },
+    {
+      "id": "morpheus-path",
+      "fr": "Il y a une différence entre connaître le chemin et parcourir le chemin.",
+      "vo": "There's a difference between knowing the path and walking the path.",
+      "auteur": "Morpheus",
+      "role": "The Matrix (1999)",
+      "source": "IMDb — The Matrix quotes",
+      "tags": [
+        "process",
+        "discipline",
+        "regularite"
+      ],
+      "confiance": "solide"
+    },
+    {
+      "id": "aragorn-notthisday",
+      "fr": "Un jour viendra peut-être où le courage des hommes faiblira... mais ce n'est pas ce jour.",
+      "vo": "A day may come when the courage of men fails... but it is not this day!",
+      "auteur": "Aragorn",
+      "role": "Le Seigneur des Anneaux (Le Retour du Roi)",
+      "source": "IMDb — The Return of the King (2003)",
+      "tags": [
+        "jour_course",
+        "mental",
+        "forme_basse"
+      ],
+      "confiance": "solide"
+    },
+    {
+      "id": "sam-goodinworld",
+      "fr": "Il y a du bon en ce monde, Monsieur Frodon — et il faut se battre pour ça.",
+      "vo": "There's some good in this world, Mr. Frodo, and it's worth fighting for.",
+      "auteur": "Samsagace Gamegie",
+      "role": "Le Seigneur des Anneaux (Les Deux Tours)",
+      "source": "IMDb — The Two Towers (2002)",
+      "tags": [
+        "mental",
+        "joie",
+        "doute",
+        "forme_basse"
+      ],
+      "confiance": "solide"
+    },
+    {
+      "id": "bond-twice",
+      "fr": "On ne vit que deux fois : une fois quand on naît, et une fois quand on regarde la mort en face.",
+      "vo": "You only live twice: once when you're born, and once when you look death in the face.",
+      "auteur": "James Bond",
+      "role": "You Only Live Twice (Ian Fleming)",
+      "source": "Ian Fleming — You Only Live Twice (roman, 1964)",
+      "tags": [
+        "jour_course",
+        "mental",
+        "confiance"
+      ],
+      "confiance": "a_confirmer"
+    },
+    {
+      "id": "raffarin-pente",
+      "fr": "Notre route est droite mais la pente est forte.",
+      "vo": "Notre route est droite mais la pente est forte.",
+      "auteur": "Jean-Pierre Raffarin",
+      "role": "Premier ministre (discours de politique générale, 2002)",
+      "source": "INA — Assemblée nationale, 3 juillet 2002",
+      "tags": [
+        "seance_dure",
+        "souffrance",
+        "regularite",
+        "jour_course"
+      ],
+      "confiance": "solide"
+    },
+    {
+      "id": "degaulle-voulu",
+      "fr": "On ne fait rien de grand sans de grands hommes, et ceux-ci le sont pour l'avoir voulu.",
+      "vo": "On ne fait rien de grand sans de grands hommes, et ceux-ci le sont pour l'avoir voulu.",
+      "auteur": "Charles de Gaulle",
+      "role": "Général et président (Le Fil de l'épée, 1932)",
+      "source": "Charles de Gaulle, Le Fil de l'épée",
+      "tags": [
+        "confiance",
+        "discipline",
+        "mental"
+      ],
+      "confiance": "solide"
+    },
+    {
+      "id": "coubertin-battu",
+      "fr": "L'important dans la vie, ce n'est point le triomphe mais le combat ; l'essentiel n'est pas d'avoir vaincu mais de s'être bien battu.",
+      "vo": "L'important dans la vie, ce n'est point le triomphe mais le combat ; l'essentiel n'est pas d'avoir vaincu mais de s'être bien battu.",
+      "auteur": "Pierre de Coubertin",
+      "role": "Fondateur des Jeux olympiques modernes",
+      "source": "Discours du 24 juillet 1908, Londres",
+      "tags": [
+        "jour_course",
+        "doute",
+        "joie"
+      ],
+      "confiance": "solide"
+    },
+    {
+      "id": "napoleon-perseverants",
+      "fr": "La victoire appartient aux plus persévérants.",
+      "vo": "La victoire appartient aux plus persévérants.",
+      "auteur": "Napoléon Bonaparte",
+      "role": "Empereur des Français",
+      "source": "attribué — citation-celebre.com",
+      "tags": [
+        "regularite",
+        "patience",
+        "mental",
+        "jour_course"
+      ],
+      "confiance": "a_confirmer"
+    },
+    {
+      "id": "danton-audace",
+      "fr": "De l'audace, encore de l'audace, toujours de l'audace !",
+      "vo": "Il nous faut de l'audace, encore de l'audace, toujours de l'audace, et la France est sauvée.",
+      "auteur": "Georges Danton",
+      "role": "Révolutionnaire (Assemblée, 2 septembre 1792)",
+      "source": "Assemblée nationale — discours du 2 septembre 1792",
+      "tags": [
+        "jour_course",
+        "green_day",
+        "confiance"
+      ],
+      "confiance": "solide"
+    },
+    {
+      "id": "clemenceau-faire",
+      "fr": "Il faut savoir ce que l'on veut. Quand on le sait, il faut avoir le courage de le dire ; quand on le dit, il faut avoir le courage de le faire.",
+      "vo": "Il faut savoir ce que l'on veut. Quand on le sait, il faut avoir le courage de le dire ; quand on le dit, il faut avoir le courage de le faire.",
+      "auteur": "Georges Clemenceau",
+      "role": "Homme d'État, président du Conseil",
+      "source": "citation-celebre.com",
+      "tags": [
+        "discipline",
+        "process",
+        "confiance"
+      ],
+      "confiance": "solide"
+    }
+  ]
+}
