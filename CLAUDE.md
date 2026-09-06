@@ -94,6 +94,19 @@ leçons de terrain append-only, compositions vérifiées). Ne jamais répondre d
 ce dossier contient les données de CET athlète. Le tube digestif s'entraîne comme un muscle
 (progression de débit glucidique sur les sorties longues, score GI 0-10 à chaque sortie nourrie).
 
+## 4 bis. Convention de nommage des séances
+
+Chaque séance (poussée par Daïmon ET nommée par l'athlète sur Strava) suit le format :
+**`[Discipline] [Sx] [Nx] [TYPEn] · libellé court`**
+- **Discipline** : codes courts définis à l'onboarding ({{DISCIPLINES — ex. du Daïmon d'origine :
+  P5 (vélo route) / HT / Nat / NL (eau libre) / CAP / Track / Muscu}}) ;
+- **Sx** = numéro de semaine du plan ;
+- **Nx** = n° de la séance dans sa FAMILLE (VÉLO / CAP / NAT / MUSCU) depuis le début de la semaine ;
+- **TYPEn** = type + compteur cumulé sur la prépa (`SL` sortie longue · `PMA` · `VMA` · `LIT` ·
+  `TEMPO` · `EFX` test — liste ouverte). Exemple : `P5 S10 N3 SL3`.
+Le nom devient une ligne de base de données : semaine, charge par famille et progression des
+types se lisent sans ouvrir la séance.
+
 ## 5. Méthodologie
 
 {{METHODO — générée à l'onboarding depuis la doctrine du sport de l'athlète.

@@ -82,9 +82,12 @@
    LE profil de l'athlète → écrire `doctrine/methodologie.md` + alimenter
    `doctrine/banque_evidence.jsonl` (schéma dans `doctrine/README.md`). Celle du Daïmon
    d'origine (triathlon longue distance) ne se copie PAS : elle se régénère.
-8. **Premier cycle** — proposer la semaine 1 (prudente : on calibre, on ne performe pas),
+8. **Convention de nommage** — définir avec l'athlète ses codes discipline (selon SES sports
+   et SON matériel) et remplir le bloc {{DISCIPLINES}} de CLAUDE.md §4 bis. Lui demander de
+   nommer ses activités Strava au même format dès la semaine 1.
+9. **Premier cycle** — proposer la semaine 1 (prudente : on calibre, on ne performe pas),
    avec les tests de seuils manquants placés en semaines 2-6.
-9. **PWA (optionnel)** — si l'athlète la veut : compte Cloudflare gratuit, `wrangler.jsonc`
+10. **PWA (optionnel)** — si l'athlète la veut : compte Cloudflare gratuit, `wrangler.jsonc`
    renommé, `APP_PASSWORD` en secret, déploiement git-connecté. Sinon : `index.html` local suffit.
 
 ## Phase 2 bis — L'ARCHÉOLOGIE STRAVA (le miel de l'historique)
