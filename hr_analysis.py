@@ -75,7 +75,7 @@ SMOOTH_S      = 15      # lissage de la vitesse (s)
 PHASE_MIN_S   = 120     # durée mini d'une phase pour être rapportée
 PHASE_TOL     = 0.12    # écart d'allure qui sépare deux phases (12 %)
 # --- récolte par FENÊTRE DE STABILISATION (méthode principale) ---
-# Sur terrain vallonné (plat max ~240 m), exiger une portion de 400 m ne
+# Sur terrain vallonné (Perros-Guirec : plat max ~240 m), exiger une portion de 400 m ne
 # donne RIEN. On fonde donc la validité sur le TEMPS plutôt que sur la distance : on retient
 # la FC dès que les STAB_S secondes précédentes ont été plates et à allure stable. C'est la
 # même intention que « lire la FC sur la 2ᵉ moitié » (laisser la FC se caler), mais la
@@ -107,7 +107,7 @@ HR_RANGE_MAX  = 15.0    # amplitude FC max dans un échantillon (bpm). Au-delà,
 MAX_GAP_S     = 3       # au-delà, on considère qu'il y a rupture de continuité
 
 MACRO_TOL     = 0.25    # regroupement en BLOCS : c'est la lecture humaine de la séance
-                        # (« 22 min cool accompagné, puis endurance »), au-dessus du
+                        # (« 22 min cool avec Juju, puis endurance »), au-dessus du
                         # découpage fin qui, lui, sert à détecter le type de séance.
 
 

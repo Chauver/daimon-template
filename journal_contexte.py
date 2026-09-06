@@ -106,7 +106,7 @@ def cmd_add(args):
         "masse_apres_kg": val("--masse-apres"),
         "boisson_ml": val("--boisson"),
         "glucides_g": val("--glucides"),
-        "rpe": val("--rpe", int),
+        "rpe": val("--rpe", float),  # demi-points OK (ex. 9.5) — même logique que journal_blessure
         "duree_h": val("--duree-h"),
         # Contexte CAP (demande athlète 27/07) : les chaussures changent la charge pied/Achille
         # (plaque carbone ≠ chaussure souple) et la musique cale la cadence — deux covariables

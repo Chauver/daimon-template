@@ -26,7 +26,8 @@
 ### C. Santé & garde-fous (⚠️ section la plus importante)
 9. Blessures passées ou chroniques ? (zone, ancienneté, ce qui les déclenche)
 10. Zones fragiles à surveiller même sans blessure actuelle ?
-11. Suivi médical, traitements, contre-indications ?
+11. Suivi médical, traitements, contre-indications ? (à 45+ : un test d'effort médical récent
+    est fortement recommandé avant de structurer de l'intensité — le suggérer s'il n'y en a pas)
 12. Y a-t-il un volume/une intensité qui t'a déjà cassé par le passé ? (c'est le futur plafond)
 > Claude : chaque réponse ici devient un GARDE-FOU NON NÉGOCIABLE dans CLAUDE.md §7,
 > avec compteur dédié si pertinent (comme le plafond course/Achille du Daïmon d'origine).
@@ -65,7 +66,10 @@
    D3 (canal de données), datées du jour. Le fil des décisions démarre ici.
 5. **Courbe de volume** — construire les 52 semaines (ou la durée jusqu'à l'échéance) dans
    `build_web_state.py` (WK) : moyenne = ce que le budget temps de F.19 permet VRAIMENT,
-   vagues 3+1, pic ≤ 1,6× la moyenne, affûtage si course. Mésocycles récup alignés sur F.21.
+   vagues 3+1, pic ≤ 1,6× la moyenne, affûtage si course. **Adapter à l'ÂGE** : après ~48-50 ans,
+   la récupération dicte le rythme — envisager des cycles 2+1 ou 3+1 avec semaine allégée plus
+   marquée, échauffements plus longs, 48 h entre deux séances intenses, et le renfo/musculation
+   devient NON NÉGOCIABLE (masse musculaire et densité osseuse). Mésocycles récup alignés sur F.21.
 6. **Adapter les constantes personnelles héritées du Daïmon d'origine** (sweep obligatoire —
    elles appartiennent à l'athlète précédent) :
    - `build_web_state.py` : `RACE`, `PLAN_START`, `WK`, `titre`, seuils du dict `seuils`

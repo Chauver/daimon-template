@@ -45,9 +45,12 @@ Données : montre → **intervals.icu** (API, clés dans `.env`). Scripts dans l
 5. `journal.py sync` → mémoire persistante
 
 `run_pipeline.sh` enchaîne tout. `maj.sh` = pipeline + commit + push (+ déploiement PWA si configurée).
-Analyses fines : `hr_analysis.py` (cardio course), `ht_analysis.py` (home-trainer ERG),
-`route_analysis.py` (vélo route, puissance pédalée), `parcours_analysis.py` (reconnaissance GPX),
-`intervals_analysis.py` + `session_report.py` (par séance).
+Analyses fines : `hr_analysis.py` (cardio course, portions plates), `ht_analysis.py` (home-trainer
+ERG), `route_analysis.py` (vélo route : puissance pédalée PMP/NPP, côtes, échantillons FC à durée
+fixe, dérive par bande), `parcours_analysis.py` (reconnaissance GPX), `intervals_analysis.py` +
+`session_report.py` (par séance), `profil_fc.py` (vues consolidées FC↔allure et FC↔puissance —
+séries par capteur JAMAIS mélangées), `fit_streams.py` (lire les .fit d'un export Strava :
+historique, anciens tests).
 Trackers : `journal_poids.py`, `journal_alcool.py`, `journal_blessure.py`, `journal_contexte.py`,
 `journal_budget.py`. Envoi de séances : `push_*.py` (→ intervals.icu → montre), `move_event.py`,
 `delete_event.py`.
@@ -63,13 +66,33 @@ métrique qui justifie). Ne jamais conclure sur deux points ; quand la base est 
 ## 4. Séquence type quand l'athlète donne des nouvelles
 
 1. Pipeline + analyse des nouvelles séances + verdicts en mémoire.
-2. Questionnaire ressenti blessure (zones définies à l'onboarding, 0-10, demi-points OK) →
+2. 🔒 **ÉCHANTILLONS (rituel obligatoire)** : après chaque CAP extérieure → `hr_analysis.py <id>` ;
+   après chaque sortie vélo route → `route_analysis.py <id>`. Ce sont les bases FC de référence
+   (dérive, chaleur, progrès) — une sortie non échantillonnée est perdue pour la métrologie.
+   Deux règles héritées de mesures réelles : (a) **règle des 60 s** — après toute coupure de
+   pédalage ≥ 4 s, la FC est faussement basse ~1 min (reconvergence mesurée : médiane 46 s) →
+   exclue des étalons ; (b) **étalons à DURÉE FIXE** (3 min bande Z2 · 5 min bande allure) —
+   des durées différentes ne se comparent pas. Terrain inadapté (GPS sous arbres, boucles) →
+   le noter dans `journal/terrains_connus.md` et n'utiliser que des fenêtres désignées.
+3. Questionnaire ressenti blessure (zones définies à l'onboarding, 0-10, demi-points OK) →
    `journal_blessure.py`. Contexte séance (température, hydratation, RPE, matériel) →
    `journal_contexte.py`. Alcool de la veille → `journal_alcool.py`. Poids si donné →
    `journal_poids.py`. Dépenses si signalées → `journal_budget.py`.
-3. Bilan hebdomadaire (dimanche) : comparer aux semaines passées, réécrire `synthese.md`,
+4. Bilan hebdomadaire (dimanche) : comparer aux semaines passées, réécrire `synthese.md`,
    ajouter la ligne dans `journal/bilans_semaine.jsonl`, proposer la semaine suivante.
-4. **Validation athlète avant tout push de séance.**
+5. **Validation athlète avant tout push de séance.**
+
+🔒 **RÈGLE D'ENVOI (incident vécu)** : toute séance structurée se pousse sur intervals.icu avec un
+**`workout_doc` JSON explicite** (steps : durée + texte + cible `%hr`/`%pace`/watts) — JAMAIS en
+laissant le parseur interpréter une description texte : la séance peut ne jamais atteindre la
+montre. Jamais de bpm absolu (offset Garmin) ; les % FC se calculent sur la FC MAX (la montre les
+applique à la FC max). Pousser avec de l'avance (la synchro Garmin est parfois différée).
+
+🔒 **DÉCLENCHEUR NUTRITION** : dès que la conversation touche nutrition/hydratation/troubles
+digestifs/ravitaillement → créer puis TOUJOURS relire `doctrine/nutrition.md` (cibles, acquis,
+leçons de terrain append-only, compositions vérifiées). Ne jamais répondre de mémoire générale :
+ce dossier contient les données de CET athlète. Le tube digestif s'entraîne comme un muscle
+(progression de débit glucidique sur les sorties longues, score GI 0-10 à chaque sortie nourrie).
 
 ## 5. Méthodologie
 

@@ -407,7 +407,9 @@ def _ligne_hr_fine(aid) -> list[str]:
     else:
         out.append(f"    - aucune mesure exploitable (terrain trop vallonné ou allure instable)")
     d = e.get("derive") or {}
-    if d.get("mesurable"):
+    # « mesurable » sans 'moyenne_bpm' arrive (ex. 14/08 : strides en fin de séance → paires
+    # d'allures atypiques) : ne jamais laisser un KeyError casser tout le rendu du journal.
+    if d.get("mesurable") and d.get("moyenne_bpm") is not None:
         out.append(f"    - dérive cardiaque à allure appariée : **{d['moyenne_bpm']:+.1f} bpm**")
     else:
         out.append("    - dérive non mesurable (aucune allure répétée)")
