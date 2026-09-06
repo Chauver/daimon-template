@@ -87,6 +87,33 @@
 9. **PWA (optionnel)** — si l'athlète la veut : compte Cloudflare gratuit, `wrangler.jsonc`
    renommé, `APP_PASSWORD` en secret, déploiement git-connecté. Sinon : `index.html` local suffit.
 
+## Phase 2 bis — L'ARCHÉOLOGIE STRAVA (le miel de l'historique)
+
+> Vécu du Daïmon d'origine : son export Strava a livré ses 4 tests PMA 2024 (dont sa vraie
+> valeur pic, 30 W au-dessus de son souvenir), la recette exacte du bloc d'entraînement qui
+> avait marché, et les puissances réelles de ses courses — la base de tout le pacing. Ne pas
+> sauter cette étape : la mémoire de l'athlète arrondit, ses fichiers non.
+
+1. **Demander l'export complet** : Strava → Réglages → Mon compte → « Télécharger vos données »
+   (arrive par mail en quelques heures, zip avec `activities.csv` + tous les .fit.gz).
+2. **Le mettre EN SÉCURITÉ** dès réception : copie dans `~/Documents/Strava_export/` (pas un
+   dossier temporaire), et noter le chemin en mémoire.
+3. **Indexer** : lire `activities.csv` (id, date, nom, type, description — les descriptions
+   contiennent souvent les notes d'époque de l'athlète, précieuses).
+4. **Extraire le miel AVEC l'athlète** (lui demander ce qui compte, puis fouiller) :
+   - **les COURSES** (toutes) : puissance/FC/allure réelles, pacing par quart, ce qui a tenu
+     ou lâché → c'est le diagnostic du profil (facteur limitant central vs périphérique) ;
+   - **les TESTS** (FTP, PMA/EFX, CSS, VMA…) : les archiver dans `journal/tests_*.jsonl`
+     (append-only) — chaque test historique = un point de référence gratuit ;
+   - **les séances « PHARES »** : les blocs qui ont précédé ses meilleures perfs — en tirer
+     LA recette qui a marché sur LUI (format, progression, fréquence), plutôt qu'une doctrine
+     générique ;
+   - outil : `fit_streams.py` lit chaque .fit et rend les mêmes flux que l'API intervals.icu
+     (`gunzip` d'abord ; analyse minute par minute, paliers, FC fin de palier).
+5. **En tirer les valeurs de référence** : meilleur test = étalon historique (l'écart actuel/pic
+   dit la marge de progression réaliste) ; courses = fractions d'intensité réellement tenues
+   (IF course) → les cibles de pacing futures se calent dessus, pas sur des tables génériques.
+
 ## Phase 3 — Le contrat
 
 Terminer par un récapitulatif : objectif, garde-fous, squelette hebdo, prochaine séance —
